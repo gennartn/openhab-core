@@ -24,9 +24,13 @@ import org.apache.karaf.shell.api.console.Completer;
 import org.apache.karaf.shell.api.console.Parser;
 import org.apache.karaf.shell.api.console.Registry;
 import org.apache.karaf.shell.api.console.Session;
+import org.openhab.core.events.Event;
+import org.openhab.core.events.EventPublisher;
 import org.openhab.core.io.console.Console;
 import org.openhab.core.io.console.ConsoleInterpreter;
 import org.openhab.core.io.console.extensions.ConsoleCommandExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class wraps OH ConsoleCommandExtensions to commands for Apache Karaf
@@ -37,7 +41,6 @@ import org.openhab.core.io.console.extensions.ConsoleCommandExtension;
 @Service
 @org.apache.karaf.shell.api.action.Command(name = "help", scope = "openhab", description = "Print the full usage information of the 'openhab' commands.")
 public class CommandWrapper implements Command, Action {
-
     // Define a scope for all commands.
     public static final String SCOPE = "openhab";
 
@@ -69,7 +72,13 @@ public class CommandWrapper implements Command, Action {
         String[] args = argList.stream().map(a -> a.toString()).collect(Collectors.toList()).toArray(new String[0]);
 
         final Console console = new OSGiConsole(getScope());
+        EventPublisher eventPublisher = new EventPublisher() {
+            @Override
+            public void post(Event event) throws IllegalArgumentException, IllegalStateException {
 
+            }
+        };
+        System.out.println("///////////////////////////////////////////////");
         if (args.length == 1 && "--help".equals(args[0])) {
             for (final String usage : command.getUsages()) {
                 console.printUsage(usage);

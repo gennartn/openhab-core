@@ -40,10 +40,18 @@ public interface UserRegistry extends Registry<User, String>, AuthenticationProv
     public User register(String username, String password, Set<String> roles);
 
     /**
+     *
+     * Change the role for an {@link User} in this registry.
+     * @param user informations of the user
+     * @param oldRole old role to be replace
+     * @param newRole new role that will be replace
+     */
+    public void changeRole(User user,String oldRole , String newRole);
+    /**
      * Change the password for an {@link User} in this registry. The implementation receives the new password and is
      * responsible for their secure storage (for instance by hashing the password).
      *
-     * @param username the username of the existing user
+     * @param user informations of the user
      * @param newPassword the new password
      */
     public void changePassword(User user, String newPassword);

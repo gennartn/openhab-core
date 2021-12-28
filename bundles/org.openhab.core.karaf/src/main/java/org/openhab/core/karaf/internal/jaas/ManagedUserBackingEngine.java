@@ -28,6 +28,8 @@ import org.openhab.core.auth.ManagedUser;
 import org.openhab.core.auth.Role;
 import org.openhab.core.auth.User;
 import org.openhab.core.auth.UserRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A Karaf backing engine for the {@link UserRegistry}

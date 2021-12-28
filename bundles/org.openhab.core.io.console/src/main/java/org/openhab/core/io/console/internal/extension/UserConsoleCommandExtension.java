@@ -40,6 +40,8 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
     private static final String SUBCMD_LIST = "list";
     private static final String SUBCMD_ADD = "add";
     private static final String SUBCMD_REMOVE = "remove";
+    private static final String SUBCMD_CHANGEROLE = "changeRole";
+    private static final String SUBCMD_LISTROLES = "listRoles";
     private static final String SUBCMD_CHANGEPASSWORD = "changePassword";
     private static final String SUBCMD_LISTAPITOKENS = "listApiTokens";
     private static final String SUBCMD_ADDAPITOKEN = "addApiToken";
@@ -60,6 +62,10 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                 buildCommandUsage(SUBCMD_ADD + " <userId> <password> <role>",
                         "adds a new user with the specified role"),
                 buildCommandUsage(SUBCMD_REMOVE + " <userId>", "removes the given user"),
+                buildCommandUsage(SUBCMD_CHANGEROLE+ " <userId> <oldRole> <newRole>",
+                        "Change the current role of a user with a new one"),
+                buildCommandUsage(SUBCMD_LISTROLES+ " <userId>",
+                        "list the roles of the userID"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
                 buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
                 buildCommandUsage(SUBCMD_ADDAPITOKEN + " <userId> <tokenName> <scope>",
@@ -68,6 +74,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         "removes (revokes) the specified API token"),
                 buildCommandUsage(SUBCMD_CLEARSESSIONS + " <userId>",
                         "clear the refresh tokens associated with the user (will sign the user out of all sessions)"));
+
     }
 
     @Override
@@ -83,10 +90,8 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         User existingUser = userRegistry.get(args[1]);
                         if (existingUser == null) {
                             User newUser = userRegistry.register(args[1], args[2], Set.of(args[3]));
-                            console.println(newUser.toString());
-                            console.println("User created.");
                         } else {
-                            console.println("The user already exists.");
+                            console.println("The user already exist.");
                         }
                     } else {
                         console.printUsage(findUsage(SUBCMD_ADD));
@@ -103,6 +108,21 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         }
                     } else {
                         console.printUsage(findUsage(SUBCMD_REMOVE));
+                    }
+                    break;
+
+                case SUBCMD_CHANGEROLE:
+                    if (args.length == 3){
+                        User existingUser = userRegistry.get(args[1]);
+                        if (existingUser == null){
+                            console.println("The user doesn't exist here you can find the available users:");
+                            userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                            return;
+                        }
+
+                    }
+                    else {
+                        console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
                     }
                     break;
                 case SUBCMD_CHANGEPASSWORD:

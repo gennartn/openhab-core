@@ -179,6 +179,11 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
     }
 
     @Override
+    public void changeRole(User user, String oldRole, String newRole){
+
+    }
+
+    @Override
     public void changePassword(User user, String newPassword) {
         if (!(user instanceof ManagedUser)) {
             throw new IllegalArgumentException("User is not managed: " + user.getName());
@@ -191,6 +196,7 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
         managedUser.setPasswordHash(passwordHash);
         update(user);
     }
+
 
     @Override
     public void addUserSession(User user, UserSession session) {
