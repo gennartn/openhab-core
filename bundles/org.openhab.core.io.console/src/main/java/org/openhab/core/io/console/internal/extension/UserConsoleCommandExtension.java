@@ -83,7 +83,12 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
             String subCommand = args[0];
             switch (subCommand) {
                 case SUBCMD_LIST:
-                    userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                    if (args.length == 1){
+                        userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                    }
+                    else {
+                        console.printUsage(findUsage(SUBCMD_LIST));
+                    }
                     break;
                 case SUBCMD_ADD:
                     if (args.length == 4) {
@@ -112,12 +117,21 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                     break;
 
                 case SUBCMD_CHANGEROLE:
-                    if (args.length == 3){
+                    if (args.length == 4){
                         User existingUser = userRegistry.get(args[1]);
                         if (existingUser == null){
                             console.println("The user doesn't exist here you can find the available users:");
                             userRegistry.getAll().forEach(user -> console.println(user.toString()));
                             return;
+                        }
+                        else{
+                            try{
+                                userRegistry.changeRole(existingUser,args[2],args[3]);
+                            }
+                            catch (IllegalArgumentException ie){
+                                ie.printStackTrace();
+                            }
+
                         }
 
                     }
