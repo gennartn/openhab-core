@@ -131,9 +131,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             catch (IllegalArgumentException ie){
                                 ie.printStackTrace();
                             }
-
                         }
-
                     }
                     else {
                         console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
