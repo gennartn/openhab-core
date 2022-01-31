@@ -43,6 +43,8 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
     private static final String SUBCMD_REMOVE = "remove";
     private static final String SUBCMD_CHANGEROLE = "changeRole";
     private static final String SUBCMD_LISTROLES = "listRoles";
+    private static final String SUBCMD_ADDROLE = "addRole";
+    private static final String SUBCMD_REMOVEROLE = "removeRole";
     private static final String SUBCMD_CHANGEPASSWORD = "changePassword";
     private static final String SUBCMD_LISTAPITOKENS = "listApiTokens";
     private static final String SUBCMD_ADDAPITOKEN = "addApiToken";
@@ -59,12 +61,14 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
 
     @Override
     public List<String> getUsages() {
-        return List.of(buildCommandUsage(SUBCMD_LIST, "lists all users WORK????????????"),
+        return List.of(buildCommandUsage(SUBCMD_LIST, "lists all users"),
                 buildCommandUsage(SUBCMD_ADD + " <userId> <password> <role>",
                         "adds a new user with the specified role"),
                 buildCommandUsage(SUBCMD_REMOVE + " <userId>", "removes the given user"),
                 buildCommandUsage(SUBCMD_CHANGEROLE + " <userId> <oldRole> <newRole>",
-                        "Change the current role of a user with a new one"),
+                        "Change the specific role of a user with a new one"),
+                buildCommandUsage(SUBCMD_ADDROLE + " <userId> <role>", "Add the specified role to the specified user"),
+                buildCommandUsage(SUBCMD_REMOVEROLE + " <userId> <role>", "Remove the specified role of the user"),
                 buildCommandUsage(SUBCMD_LISTROLES + " <userId>", "list the roles of the userID"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
                 buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
@@ -129,22 +133,31 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             }
                         }
                     } else {
-                        console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
+                        console.printUsage(findUsage(SUBCMD_CHANGEROLE));
                     }
 
                     break;
+
                 case SUBCMD_LISTROLES:
                     if (args.length == 1) {
                         Collection<User> usersRegistry = userRegistry.getAll();
                         for (User user : usersRegistry) {
                             Set<String> roles = user.getRoles();
+                            String out = "The username " + user.toString() + "has these roles: ";
                             for (String role : roles) {
-                                console.println(role);
+                                out = out + role + " - ";
                             }
+                            console.println(out);
                         }
                     } else {
                         console.printUsage(findUsage(SUBCMD_LISTROLES));
                     }
+                    break;
+                case SUBCMD_ADDROLE:
+
+                    break;
+                case SUBCMD_REMOVEROLE:
+
                     break;
                 case SUBCMD_CHANGEPASSWORD:
                     if (args.length == 3) {

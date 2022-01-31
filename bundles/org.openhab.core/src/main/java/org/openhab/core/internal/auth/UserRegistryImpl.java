@@ -181,7 +181,7 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
     @Override
     public void changeRole(User user, String oldRole, String newRole) {
         if (!(user instanceof ManagedUser)) {
-            throw new IllegalArgumentException("User is not managed: " + user.getName());
+         throw new IllegalArgumentException("User is not managed: " + user.getName());
         }
         ManagedUser managedUser = (ManagedUser) user;
 
@@ -201,6 +201,16 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
         }
         managedUser.setRoles(newRoles);
         update(user);
+    }
+
+    @Override
+    public void addRole(User user, String role){
+
+    }
+
+    @Override
+    public void removeRole(User user, String role){
+
     }
 
     @Override

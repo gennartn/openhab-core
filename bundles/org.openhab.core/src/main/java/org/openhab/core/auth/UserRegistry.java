@@ -46,9 +46,24 @@ public interface UserRegistry extends Registry<User, String>, AuthenticationProv
      * @param user informations of the user
      * @param oldRole old role to be replace
      * @param newRole new role that will be replace
-     * Change the role of a user. If the user has mor than one role, replace only the role to be replaced.
+     *            Change the role of a user. If the user has more than one role, replace only the role to be replaced.
      */
     public void changeRole(User user, String oldRole, String newRole);
+
+    /**
+     * Add a role for an {@link User} in this registry.
+     * @param user informations of the user
+     * @param role role to be added
+     */
+    public void addRole(User user, String role);
+
+    /**
+     * Remove the specific role of the user
+     * @param user informations of the user
+     * @param role role to be added
+     */
+    public void removeRole(User user, String role);
+
 
     /**
      * Change the password for an {@link User} in this registry. The implementation receives the new password and is

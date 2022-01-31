@@ -29,8 +29,6 @@ import org.openhab.core.events.EventPublisher;
 import org.openhab.core.io.console.Console;
 import org.openhab.core.io.console.ConsoleInterpreter;
 import org.openhab.core.io.console.extensions.ConsoleCommandExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This class wraps OH ConsoleCommandExtensions to commands for Apache Karaf
@@ -75,7 +73,6 @@ public class CommandWrapper implements Command, Action {
         EventPublisher eventPublisher = new EventPublisher() {
             @Override
             public void post(Event event) throws IllegalArgumentException, IllegalStateException {
-
             }
         };
         System.out.println("///////////////////////////////////////////////");
