@@ -178,33 +178,33 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
         throw new IllegalArgumentException("Invalid credential type");
     }
 
-    /*
-     * @Override
-     * public void changeRole(User user, String oldRole, String newRole) {
-     * if (!(user instanceof ManagedUser)) {
-     * throw new IllegalArgumentException("User is not managed: " + user.getName());
-     * }
-     * ManagedUser managedUser = (ManagedUser) user;
-     * 
-     * Set<String> newRoles = new HashSet<>();
-     * Set<String> roles = managedUser.getRoles();
-     * 
-     * int append = 0;
-     * for (String role : roles) {
-     * if (oldRole.equals(role)) {
-     * newRoles.add(newRole);
-     * append = 1;
-     * } else {
-     * newRoles.add(role);
-     * }
-     * }
-     * if (append == 0) {
-     * throw new IllegalArgumentException("the oldrole:" + oldRole + " does not exist");
-     * }
-     * managedUser.setRoles(newRoles);
-     * update(user);
-     * }
-     */
+
+    @Override
+    public void changeRole(User user, String oldRole, String newRole) {
+      if (!(user instanceof ManagedUser)) {
+        throw new IllegalArgumentException("User is not managed: " + user.getName());
+      }
+        ManagedUser managedUser = (ManagedUser) user;
+
+        Set<String> newRoles = new HashSet<>();
+        Set<String> roles = managedUser.getRoles();
+
+        int append = 0;
+      for (String role : roles) {
+          if (oldRole.equals(role)) {
+            newRoles.add(newRole);
+            append = 1;
+          } else {
+            newRoles.add(role);
+          }
+      }
+      if (append == 0) {
+        throw new IllegalArgumentException("the oldrole:" + oldRole + " does not exist");
+      }
+        managedUser.setRoles(newRoles);
+        update(user);
+    }
+
 
     @Override
     public void changePassword(User user, String newPassword) {
