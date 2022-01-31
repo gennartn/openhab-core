@@ -22,7 +22,6 @@ import org.openhab.core.auth.ManagedUser;
 import org.openhab.core.auth.User;
 import org.openhab.core.auth.UserApiToken;
 import org.openhab.core.auth.UserRegistry;
-import org.openhab.core.common.registry.Registry;
 import org.openhab.core.io.console.Console;
 import org.openhab.core.io.console.extensions.AbstractConsoleCommandExtension;
 import org.openhab.core.io.console.extensions.ConsoleCommandExtension;
@@ -116,33 +115,30 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                     break;
 
                 case SUBCMD_CHANGEROLE:
-                      if (args.length == 4){
-                          User existingUser = userRegistry.get(args[1]);
-                          if (existingUser == null){
-                              console.println("The user doesn't exist here you can find the available users:");
-                              userRegistry.getAll().forEach(user -> console.println(user.toString()));
-                              return;
-                          }
-                          else{
-                              try{
-                                userRegistry.changeRole(existingUser,args[2],args[3]);
-                              }
-                              catch (IllegalArgumentException ie){
+                    if (args.length == 4) {
+                        User existingUser = userRegistry.get(args[1]);
+                        if (existingUser == null) {
+                            console.println("The user doesn't exist here you can find the available users:");
+                            userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                            return;
+                        } else {
+                            try {
+                                userRegistry.changeRole(existingUser, args[2], args[3]);
+                            } catch (IllegalArgumentException ie) {
                                 ie.printStackTrace();
-                              }
-                          }
-                      }
-                      else {
+                            }
+                        }
+                    } else {
                         console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
-                      }
+                    }
 
                     break;
                 case SUBCMD_LISTROLES:
                     if (args.length == 1) {
                         Collection<User> usersRegistry = userRegistry.getAll();
-                        for(User user : usersRegistry){
+                        for (User user : usersRegistry) {
                             Set<String> roles = user.getRoles();
-                            for(String role : roles){
+                            for (String role : roles) {
                                 console.println(role);
                             }
                         }
