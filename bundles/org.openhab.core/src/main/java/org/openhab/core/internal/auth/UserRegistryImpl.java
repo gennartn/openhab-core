@@ -184,12 +184,11 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
       if (!(user instanceof ManagedUser)) {
         throw new IllegalArgumentException("User is not managed: " + user.getName());
       }
-        ManagedUser managedUser = (ManagedUser) user;
+      ManagedUser managedUser = (ManagedUser) user;
 
-        Set<String> newRoles = new HashSet<>();
-        Set<String> roles = managedUser.getRoles();
-
-        int append = 0;
+      Set<String> newRoles = new HashSet<>();
+      Set<String> roles = managedUser.getRoles();
+      int append = 0;
       for (String role : roles) {
           if (oldRole.equals(role)) {
             newRoles.add(newRole);
@@ -201,8 +200,8 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
       if (append == 0) {
         throw new IllegalArgumentException("the oldrole:" + oldRole + " does not exist");
       }
-        managedUser.setRoles(newRoles);
-        update(user);
+      managedUser.setRoles(newRoles);
+      update(user);
     }
 
 
