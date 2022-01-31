@@ -65,11 +65,11 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                 buildCommandUsage(SUBCMD_ADD + " <userId> <password> <role>",
                         "adds a new user with the specified role"),
                 buildCommandUsage(SUBCMD_REMOVE + " <userId>", "removes the given user"),
+                buildCommandUsage(SUBCMD_LISTROLES + " <userId>", "list the roles of the userID"),
                 buildCommandUsage(SUBCMD_CHANGEROLE + " <userId> <oldRole> <newRole>",
                         "Change the specific role of a user with a new one"),
                 buildCommandUsage(SUBCMD_ADDROLE + " <userId> <role>", "Add the specified role to the specified user"),
                 buildCommandUsage(SUBCMD_REMOVEROLE + " <userId> <role>", "Remove the specified role of the user"),
-                buildCommandUsage(SUBCMD_LISTROLES + " <userId>", "list the roles of the userID"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
                 buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
                 buildCommandUsage(SUBCMD_ADDAPITOKEN + " <userId> <tokenName> <scope>",
@@ -117,7 +117,21 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         console.printUsage(findUsage(SUBCMD_REMOVE));
                     }
                     break;
-
+                case SUBCMD_LISTROLES:
+                    if (args.length == 1) {
+                        Collection<User> usersRegistry = userRegistry.getAll();
+                        for (User user : usersRegistry) {
+                            Set<String> roles = user.getRoles();
+                            String out = "The username " + user.toString() + "has these roles: ";
+                            for (String role : roles) {
+                                out = out + role + " - ";
+                            }
+                            console.println(out);
+                        }
+                    } else {
+                        console.printUsage(findUsage(SUBCMD_LISTROLES));
+                    }
+                    break;
                 case SUBCMD_CHANGEROLE:
                     if (args.length == 4) {
                         User existingUser = userRegistry.get(args[1]);
@@ -138,26 +152,43 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
 
                     break;
 
-                case SUBCMD_LISTROLES:
-                    if (args.length == 1) {
-                        Collection<User> usersRegistry = userRegistry.getAll();
-                        for (User user : usersRegistry) {
-                            Set<String> roles = user.getRoles();
-                            String out = "The username " + user.toString() + "has these roles: ";
-                            for (String role : roles) {
-                                out = out + role + " - ";
+                case SUBCMD_ADDROLE:
+                    if (args.length == 4) {
+                        User existingUser = userRegistry.get(args[1]);
+                        if (existingUser == null) {
+                            console.println("The user doesn't exist here you can find the available users:");
+                            userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                            return;
+                        } else {
+                            if(userRegistry.addRole(existingUser,args[2])){
+                                console.println("The role " + args[2] + " of the user " + args[1] + " has been added.");
                             }
-                            console.println(out);
+                            else{
+                                console.println("The role "+args[2] + "of the user "+ args[2] + " already exist.");
+                            }
                         }
                     } else {
-                        console.printUsage(findUsage(SUBCMD_LISTROLES));
+                        console.printUsage(findUsage(SUBCMD_ADDROLE));
                     }
                     break;
-                case SUBCMD_ADDROLE:
-
-                    break;
                 case SUBCMD_REMOVEROLE:
-
+                    if (args.length == 4) {
+                        User existingUser = userRegistry.get(args[1]);
+                        if (existingUser == null) {
+                            console.println("The user doesn't exist here you can find the available users:");
+                            userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                            return;
+                        } else {
+                            if(userRegistry.removeRole(existingUser,args[2])){
+                                console.println("The role " + args[2] + " of the user " + args[1] + " has been removed.");
+                            }
+                            else{
+                                console.println("The role "+args[2] + "of the user "+ args[2] + " doesn't exist.");
+                            }
+                        }
+                    } else {
+                        console.printUsage(findUsage(SUBCMD_REMOVEROLE));
+                    }
                     break;
                 case SUBCMD_CHANGEPASSWORD:
                     if (args.length == 3) {

@@ -54,15 +54,17 @@ public interface UserRegistry extends Registry<User, String>, AuthenticationProv
      * Add a role for an {@link User} in this registry.
      * @param user informations of the user
      * @param role role to be added
+     * @return return true if the role is added and false otherwise.
      */
-    public void addRole(User user, String role);
+    public boolean addRole(User user, String role);
 
     /**
      * Remove the specific role of the user
      * @param user informations of the user
      * @param role role to be added
+     * @return return true if the role is removed and false otherwise.
      */
-    public void removeRole(User user, String role);
+    public boolean removeRole(User user, String role);
 
 
     /**
