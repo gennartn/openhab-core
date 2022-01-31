@@ -178,39 +178,33 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
         throw new IllegalArgumentException("Invalid credential type");
     }
 
-    /**
-     *
-     * @param user informations of the user
-     * @param oldRole old role to be replace
-     * @param newRole new role that will be replace
-     * Change the role of a user. If the user has mor than one role, replace only the role to be replaced.
+    /*
+     * @Override
+     * public void changeRole(User user, String oldRole, String newRole) {
+     * if (!(user instanceof ManagedUser)) {
+     * throw new IllegalArgumentException("User is not managed: " + user.getName());
+     * }
+     * ManagedUser managedUser = (ManagedUser) user;
+     * 
+     * Set<String> newRoles = new HashSet<>();
+     * Set<String> roles = managedUser.getRoles();
+     * 
+     * int append = 0;
+     * for (String role : roles) {
+     * if (oldRole.equals(role)) {
+     * newRoles.add(newRole);
+     * append = 1;
+     * } else {
+     * newRoles.add(role);
+     * }
+     * }
+     * if (append == 0) {
+     * throw new IllegalArgumentException("the oldrole:" + oldRole + " does not exist");
+     * }
+     * managedUser.setRoles(newRoles);
+     * update(user);
+     * }
      */
-    @Override
-    public void changeRole(User user, String oldRole, String newRole){
-        if (!(user instanceof  ManagedUser)){
-            throw new IllegalArgumentException("User is not managed: " + user.getName());
-        }
-        ManagedUser managedUser = (ManagedUser) user;
-
-        Set<String> newRoles = new HashSet<>();
-        Set<String> roles = managedUser.getRoles();
-
-        int append = 0;
-        for(String role : roles){
-            if(oldRole.equals(role)){
-                newRoles.add(newRole);
-                append = 1;
-            }
-            else{
-                newRoles.add(role);
-            }
-        }
-        if(append == 0){
-            throw new IllegalArgumentException("the oldrole:"+ oldRole +" does not exist");
-        }
-        managedUser.setRoles(newRoles);
-        update(user);
-    }
 
     @Override
     public void changePassword(User user, String newPassword) {
@@ -225,7 +219,6 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
         managedUser.setPasswordHash(passwordHash);
         update(user);
     }
-
 
     @Override
     public void addUserSession(User user, UserSession session) {

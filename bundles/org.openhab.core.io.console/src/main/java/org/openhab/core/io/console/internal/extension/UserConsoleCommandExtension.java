@@ -58,14 +58,13 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
 
     @Override
     public List<String> getUsages() {
-        return List.of(buildCommandUsage(SUBCMD_LIST, "lists all users"),
+        return List.of(buildCommandUsage(SUBCMD_LIST, "lists all users WORK????????????"),
                 buildCommandUsage(SUBCMD_ADD + " <userId> <password> <role>",
                         "adds a new user with the specified role"),
                 buildCommandUsage(SUBCMD_REMOVE + " <userId>", "removes the given user"),
-                buildCommandUsage(SUBCMD_CHANGEROLE+ " <userId> <oldRole> <newRole>",
+                buildCommandUsage(SUBCMD_CHANGEROLE + " <userId> <oldRole> <newRole>",
                         "Change the current role of a user with a new one"),
-                buildCommandUsage(SUBCMD_LISTROLES+ " <userId>",
-                        "list the roles of the userID"),
+                buildCommandUsage(SUBCMD_LISTROLES + " <userId>", "list the roles of the userID"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
                 buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
                 buildCommandUsage(SUBCMD_ADDAPITOKEN + " <userId> <tokenName> <scope>",
@@ -74,7 +73,6 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         "removes (revokes) the specified API token"),
                 buildCommandUsage(SUBCMD_CLEARSESSIONS + " <userId>",
                         "clear the refresh tokens associated with the user (will sign the user out of all sessions)"));
-
     }
 
     @Override
@@ -83,10 +81,9 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
             String subCommand = args[0];
             switch (subCommand) {
                 case SUBCMD_LIST:
-                    if (args.length == 1){
+                    if (args.length == 1) {
                         userRegistry.getAll().forEach(user -> console.println(user.toString()));
-                    }
-                    else {
+                    } else {
                         console.printUsage(findUsage(SUBCMD_LIST));
                     }
                     break;
@@ -117,25 +114,28 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                     break;
 
                 case SUBCMD_CHANGEROLE:
-                    if (args.length == 4){
-                        User existingUser = userRegistry.get(args[1]);
-                        if (existingUser == null){
-                            console.println("The user doesn't exist here you can find the available users:");
-                            userRegistry.getAll().forEach(user -> console.println(user.toString()));
-                            return;
-                        }
-                        else{
-                            try{
-                                userRegistry.changeRole(existingUser,args[2],args[3]);
-                            }
-                            catch (IllegalArgumentException ie){
-                                ie.printStackTrace();
-                            }
-                        }
-                    }
-                    else {
-                        console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
-                    }
+                    /*
+                     * if (args.length == 4){
+                     * 
+                     * User existingUser = userRegistry.get(args[1]);
+                     * if (existingUser == null){
+                     * console.println("The user doesn't exist here you can find the available users:");
+                     * userRegistry.getAll().forEach(user -> console.println(user.toString()));
+                     * return;
+                     * }
+                     * else{
+                     * try{
+                     * userRegistry.changeRole(existingUser,args[2],args[3]);
+                     * }
+                     * catch (IllegalArgumentException ie){
+                     * ie.printStackTrace();
+                     * }
+                     * }
+                     * }
+                     * else {
+                     * console.printUsage(findUsage(SUBCMD_CHANGEPASSWORD));
+                     * }
+                     */
                     break;
                 case SUBCMD_CHANGEPASSWORD:
                     if (args.length == 3) {
