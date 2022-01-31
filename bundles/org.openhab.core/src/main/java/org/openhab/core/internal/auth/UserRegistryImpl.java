@@ -197,7 +197,7 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
             }
         }
         if (append == 0) {
-            throw new IllegalArgumentException("the oldrole:" + oldRole + " does not exist");
+            throw new IllegalArgumentException("the role:" + oldRole + " does not exist");
         }
         managedUser.setRoles(newRoles);
         update(user);

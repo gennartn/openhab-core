@@ -122,7 +122,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         Collection<User> usersRegistry = userRegistry.getAll();
                         for (User user : usersRegistry) {
                             Set<String> roles = user.getRoles();
-                            String out = "The username " + user.toString() + "has these roles: ";
+                            String out = "The username " + user.toString() + " has these roles: ";
                             for (String role : roles) {
                                 out = out + role + " - ";
                             }
@@ -142,6 +142,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         } else {
                             try {
                                 userRegistry.changeRole(existingUser, args[2], args[3]);
+                                console.println("The role " + args[2] + " of the user " + args[1] + " has been changed to the role "+args[3]);
                             } catch (IllegalArgumentException ie) {
                                 ie.printStackTrace();
                             }
