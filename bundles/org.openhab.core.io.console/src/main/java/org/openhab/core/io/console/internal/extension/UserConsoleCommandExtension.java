@@ -122,9 +122,18 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         Collection<User> usersRegistry = userRegistry.getAll();
                         for (User user : usersRegistry) {
                             Set<String> roles = user.getRoles();
-                            String out = "The username " + user.toString() + " has these roles: ";
-                            for (String role : roles) {
-                                out = out + role + " - ";
+                            String out = "";
+                            if( roles.size() == 1){
+                                out = "The username " + user.toString() + " has the role: " ;
+                                for(String role : roles){
+                                    out = out + role + " - ";
+                                }
+                            }
+                            else{
+                                out = "The username " + user.toString() + " has these roles: - ";
+                                for (String role : roles) {
+                                    out = out + role + " - ";
+                                }
                             }
                             console.println(out);
                         }
@@ -142,7 +151,8 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         } else {
                             try {
                                 userRegistry.changeRole(existingUser, args[2], args[3]);
-                                console.println("The role " + args[2] + " of the user " + args[1] + " has been changed to the role "+args[3]);
+                                console.println("The role " + args[2] + " of the user " + args[1]
+                                        + " has been changed to the role " + args[3]);
                             } catch (IllegalArgumentException ie) {
                                 ie.printStackTrace();
                             }
@@ -161,11 +171,10 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             userRegistry.getAll().forEach(user -> console.println(user.toString()));
                             return;
                         } else {
-                            if(userRegistry.addRole(existingUser,args[2])){
+                            if (userRegistry.addRole(existingUser, args[2])) {
                                 console.println("The role " + args[2] + " of the user " + args[1] + " has been added.");
-                            }
-                            else{
-                                console.println("The role "+args[2] + "of the user "+ args[2] + " already exist.");
+                            } else {
+                                console.println("The role " + args[2] + "of the user " + args[2] + " already exist.");
                             }
                         }
                     } else {
@@ -180,11 +189,11 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             userRegistry.getAll().forEach(user -> console.println(user.toString()));
                             return;
                         } else {
-                            if(userRegistry.removeRole(existingUser,args[2])){
-                                console.println("The role " + args[2] + " of the user " + args[1] + " has been removed.");
-                            }
-                            else{
-                                console.println("The role "+args[2] + "of the user "+ args[2] + " doesn't exist.");
+                            if (userRegistry.removeRole(existingUser, args[2])) {
+                                console.println(
+                                        "The role " + args[2] + " of the user " + args[1] + " has been removed.");
+                            } else {
+                                console.println("The role " + args[2] + "of the user " + args[2] + " doesn't exist.");
                             }
                         }
                     } else {
