@@ -123,13 +123,12 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         for (User user : usersRegistry) {
                             Set<String> roles = user.getRoles();
                             String out = "";
-                            if( roles.size() == 1){
-                                out = "The username " + user.toString() + " has the role: " ;
-                                for(String role : roles){
+                            if (roles.size() == 1) {
+                                out = "The username " + user.toString() + " has the role: ";
+                                for (String role : roles) {
                                     out = out + role + " - ";
                                 }
-                            }
-                            else{
+                            } else {
                                 out = "The username " + user.toString() + " has these roles: - ";
                                 for (String role : roles) {
                                     out = out + role + " - ";
