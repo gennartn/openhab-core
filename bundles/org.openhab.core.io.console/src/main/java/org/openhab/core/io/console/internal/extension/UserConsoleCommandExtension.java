@@ -71,7 +71,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                 buildCommandUsage(SUBCMD_ADDROLE + " <userId> <role>", "Add the specified role to the specified user"),
                 buildCommandUsage(SUBCMD_REMOVEROLE + " <userId> <role>", "Remove the specified role of the user"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
-                buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
+                buildCommandUsage( SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
                 buildCommandUsage(SUBCMD_ADDAPITOKEN + " <userId> <tokenName> <scope>",
                         "adds a new API token on behalf of the specified user for the specified scope"),
                 buildCommandUsage(SUBCMD_RMAPITOKEN + " <userId> <tokenName>",
@@ -173,7 +173,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             if (userRegistry.addRole(existingUser, args[2])) {
                                 console.println("The role " + args[2] + " of the user " + args[1] + " has been added.");
                             } else {
-                                console.println("The role " + args[2] + "of the user " + args[2] + " already exist.");
+                                console.println("The role " + args[2] + " of the user " + args[2] + " already exist.");
                             }
                         }
                     } else {
@@ -192,7 +192,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                                 console.println(
                                         "The role " + args[2] + " of the user " + args[1] + " has been removed.");
                             } else {
-                                console.println("The role " + args[2] + "of the user " + args[2] + " doesn't exist.");
+                                console.println("The role " + args[2] + " of the user " + args[2] + " doesn't exist.");
                             }
                         }
                     } else {
