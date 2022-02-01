@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -1516,7 +1516,8 @@ public class ThingManagerOSGiTest extends JavaOSGiTest {
 
         // ThingHandler.initialize() not called, thing status is UNINITIALIZED.HANDLER_CONFIGURATION_PENDING
         ThingStatusInfo uninitializedPending = ThingStatusInfoBuilder
-                .create(ThingStatus.UNINITIALIZED, ThingStatusDetail.HANDLER_CONFIGURATION_PENDING).build();
+                .create(ThingStatus.UNINITIALIZED, ThingStatusDetail.HANDLER_CONFIGURATION_PENDING)
+                .withDescription("@text/missing-or-invalid-configuration").build();
         verify(thingHandler, never()).initialize();
         assertThat(thing.getStatusInfo(), is(uninitializedPending));
 

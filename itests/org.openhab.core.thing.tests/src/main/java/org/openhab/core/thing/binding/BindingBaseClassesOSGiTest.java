@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -154,6 +154,11 @@ public class BindingBaseClassesOSGiTest extends JavaOSGiTest {
         @Override
         public void initialize() {
             updateStatus(ThingStatus.ONLINE);
+        }
+
+        @Override
+        public void updateConfiguration(Configuration configuration) {
+            super.updateConfiguration(configuration);
         }
     }
 
@@ -350,7 +355,8 @@ public class BindingBaseClassesOSGiTest extends JavaOSGiTest {
 
         // ThingHandler.initialize() has not been called; thing with status UNINITIALIZED.HANDLER_CONFIGURATION_PENDING
         ThingStatusInfo uninitialized = ThingStatusInfoBuilder
-                .create(ThingStatus.UNINITIALIZED, ThingStatusDetail.HANDLER_CONFIGURATION_PENDING).build();
+                .create(ThingStatus.UNINITIALIZED, ThingStatusDetail.HANDLER_CONFIGURATION_PENDING)
+                .withDescription("@text/missing-or-invalid-configuration").build();
         assertThat(thing.getStatusInfo(), is(uninitialized));
 
         thingRegistry.updateConfiguration(thingUID, Map.of("parameter", "value"));
@@ -603,6 +609,40 @@ public class BindingBaseClassesOSGiTest extends JavaOSGiTest {
 
         assertThrows(ConfigValidationException.class,
                 () -> thingRegistry.updateConfiguration(thingUID, Map.of("parameter", configuration)));
+    }
+
+    @Test
+    public void assertIllegalConfigurationParametersPreventUpdate() {
+        SimpleThingHandlerFactory thingHandlerFactory = new SimpleThingHandlerFactory();
+        thingHandlerFactory.activate(componentContext);
+        registerService(thingHandlerFactory, ThingHandlerFactory.class.getName());
+
+        registerThingTypeProvider();
+        registerConfigDescriptionProvider(true);
+
+        ThingTypeUID thingTypeUID = new ThingTypeUID("bindingId:type");
+        ThingUID thingUID = new ThingUID("bindingId:type:thingId");
+        Thing thing = ThingBuilder.create(thingTypeUID, thingUID)
+                .withConfiguration(new Configuration(Map.of("parameter", "someValue"))).build();
+
+        managedThingProvider.add(thing);
+
+        SimpleThingHandler handler = (SimpleThingHandler) thing.getHandler();
+        assertNotNull(handler);
+        Object parameter = handler.getThing().getConfiguration().get("parameter");
+        assertNotNull(parameter);
+        assertEquals("someValue", parameter);
+
+        handler.updateConfiguration(new Configuration(Map.of("parameter", "otherValue")));
+        parameter = handler.getThing().getConfiguration().get("parameter");
+        assertNotNull(parameter);
+        assertEquals("otherValue", parameter);
+
+        handler.updateConfiguration(new Configuration(Map.of()));
+        parameter = handler.getThing().getConfiguration().get("parameter");
+        // configuration should not change
+        assertNotNull(parameter);
+        assertEquals("otherValue", parameter);
     }
 
     @Test

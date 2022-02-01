@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -11,7 +11,7 @@
 
   <groupId>org.openhab.core</groupId>
   <artifactId>org.openhab.core.reactor</artifactId>
-  <version>3.2.0-SNAPSHOT</version>
+  <version>3.3.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -69,11 +69,11 @@
     <maven.compiler.target>${oh.java.version}</maven.compiler.target>
     <maven.compiler.compilerVersion>${oh.java.version}</maven.compiler.compilerVersion>
 
-    <bnd.version>6.0.0</bnd.version>
+    <bnd.version>6.1.0</bnd.version>
     <commons.net.version>3.7.2</commons.net.version>
     <eea.version>2.3.0</eea.version>
     <karaf.compile.version>4.3.0</karaf.compile.version>
-    <karaf.tooling.version>4.3.3</karaf.tooling.version>
+    <karaf.tooling.version>4.3.6</karaf.tooling.version>
     <sat.version>0.12.0</sat.version>
     <slf4j.version>1.7.32</slf4j.version>
     <xtext.version>2.25.0</xtext.version>
@@ -442,6 +442,7 @@ Import-Package: \\
               <headerDefinition>licenses/epl-2.0/xml-header-style.xml</headerDefinition>
             </headerDefinitions>
             <includes>
+              <include>**/archetype/**/*.groovy</include>
               <include>**/org/openhab/core/**/*.java</include>
               <include>**/org/openhab/core/**/*.mwe2</include>
               <include>**/org/openhab/core/**/*.xtend</include>
@@ -458,7 +459,7 @@ Import-Package: \\
             </excludes>
             <useDefaultExcludes>true</useDefaultExcludes>
             <properties>
-              <year>2021</year>
+              <year>2022</year>
             </properties>
             <encoding>UTF-8</encoding>
           </configuration>
@@ -540,6 +541,12 @@ Import-Package: \\
         </plugin>
 
         <plugin>
+          <groupId>org.openhab.core.tools</groupId>
+          <artifactId>i18n-maven-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+
+        <plugin>
           <groupId>org.openhab.tools.sat</groupId>
           <artifactId>sat-plugin</artifactId>
           <version>${sat.version}</version>
@@ -562,6 +569,7 @@ Import-Package: \\
             </execution>
           </executions>
         </plugin>
+
         <plugin>
           <groupId>com.github.ekryd.sortpom</groupId>
           <artifactId>sortpom-maven-plugin</artifactId>
@@ -584,6 +592,7 @@ Import-Package: \\
             </execution>
           </executions>
         </plugin>
+
         <plugin>
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>

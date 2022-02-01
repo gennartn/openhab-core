@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -25,6 +25,7 @@ import org.osgi.framework.Bundle;
  *
  * @author Laurent Garnier - Initial contribution
  */
+@SuppressWarnings("serial")
 @NonNullByDefault
 public abstract class AbstractI18nException extends RuntimeException {
 
