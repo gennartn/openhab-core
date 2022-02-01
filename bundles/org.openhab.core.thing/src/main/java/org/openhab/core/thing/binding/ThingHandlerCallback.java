@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -83,12 +83,22 @@ public interface ThingHandlerCallback {
     /**
      * Validates the given configuration parameters against the configuration description.
      *
-     * @param thing thing with the updated configuration (must no be null)
+     * @param thing thing with the updated configuration (must not be null)
      * @param configurationParameters the configuration parameters to be validated
      * @throws ConfigValidationException if one or more of the given configuration parameters do not match
      *             their declarations in the configuration description
      */
     void validateConfigurationParameters(Thing thing, Map<String, Object> configurationParameters);
+
+    /**
+     * Validates the given configuration parameters against the configuration description.
+     *
+     * @param channel channel with the updated configuration (must not be null)
+     * @param configurationParameters the configuration parameters to be validated
+     * @throws ConfigValidationException if one or more of the given configuration parameters do not match
+     *             their declarations in the configuration description
+     */
+    void validateConfigurationParameters(Channel channel, Map<String, Object> configurationParameters);
 
     /**
      * Informs about an updated configuration of a thing.

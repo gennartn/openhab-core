@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2021 Contributors to the openHAB project
+ * Copyright (c) 2010-2022 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -123,7 +123,18 @@ final class TypeIntrospections {
          * @return true, if the given value can be assigned to the type of this introspection, otherwise false
          */
         boolean isAssignable(Object value) {
-            return clazz.isAssignableFrom(value.getClass());
+            return clazz.isAssignableFrom(value.getClass()) || isStringInstance(value);
+        }
+
+        /**
+         * Returns true, if the given value is a string, otherwise false.
+         *
+         * @param value the value to be analyzed
+         *
+         * @return true, if the given value is a string, otherwise false
+         */
+        final boolean isStringInstance(Object value) {
+            return value instanceof String;
         }
 
         /**
