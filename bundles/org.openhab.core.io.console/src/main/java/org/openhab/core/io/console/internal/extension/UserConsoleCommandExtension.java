@@ -28,6 +28,8 @@ import org.openhab.core.io.console.extensions.ConsoleCommandExtension;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Console command extension to manage users, sessions and API tokens
@@ -51,6 +53,8 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
     private static final String SUBCMD_RMAPITOKEN = "rmApiToken";
     private static final String SUBCMD_CLEARSESSIONS = "clearSessions";
 
+    private final Logger logger = LoggerFactory.getLogger(UserConsoleCommandExtension.class);
+
     private final UserRegistry userRegistry;
 
     @Activate
@@ -71,7 +75,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                 buildCommandUsage(SUBCMD_ADDROLE + " <userId> <role>", "Add the specified role to the specified user"),
                 buildCommandUsage(SUBCMD_REMOVEROLE + " <userId> <role>", "Remove the specified role of the user"),
                 buildCommandUsage(SUBCMD_CHANGEPASSWORD + " <userId> <newPassword>", "changes the password of a user"),
-                buildCommandUsage( SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
+                buildCommandUsage(SUBCMD_LISTAPITOKENS, "lists the API tokens for all users"),
                 buildCommandUsage(SUBCMD_ADDAPITOKEN + " <userId> <tokenName> <scope>",
                         "adds a new API token on behalf of the specified user for the specified scope"),
                 buildCommandUsage(SUBCMD_RMAPITOKEN + " <userId> <tokenName>",
@@ -153,7 +157,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                                 console.println("The role " + args[2] + " of the user " + args[1]
                                         + " has been changed to the role " + args[3]);
                             } catch (IllegalArgumentException ie) {
-                                ie.printStackTrace();
+                                logger.warn("IllegalArgumentException: ",ie);
                             }
                         }
                     } else {
