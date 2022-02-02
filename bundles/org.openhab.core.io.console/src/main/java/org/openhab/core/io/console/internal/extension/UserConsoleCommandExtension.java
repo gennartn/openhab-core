@@ -130,7 +130,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             if (roles.size() == 1) {
                                 out = "The username " + user.toString() + " has the role: ";
                                 for (String role : roles) {
-                                    out = out + role + " - ";
+                                    out = out + role ;
                                 }
                             } else {
                                 out = "The username " + user.toString() + " has these roles: - ";
@@ -154,10 +154,10 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         } else {
                             try {
                                 userRegistry.changeRole(existingUser, args[2], args[3]);
-                                console.println("The role " + args[2] + " of the user " + args[1]
-                                        + " has been changed to the role " + args[3]);
+                                console.println("The role (" + args[2] + ") of the user " + args[1]
+                                        + " has been changed to the role (" + args[3] + ")");
                             } catch (IllegalArgumentException ie) {
-                                logger.warn("IllegalArgumentException: ",ie);
+                                logger.warn("IllegalArgumentException: ", ie);
                             }
                         }
                     } else {
@@ -167,7 +167,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                     break;
 
                 case SUBCMD_ADDROLE:
-                    if (args.length == 4) {
+                    if (args.length == 3) {
                         User existingUser = userRegistry.get(args[1]);
                         if (existingUser == null) {
                             console.println("The user doesn't exist here you can find the available users:");
@@ -175,9 +175,9 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                             return;
                         } else {
                             if (userRegistry.addRole(existingUser, args[2])) {
-                                console.println("The role " + args[2] + " of the user " + args[1] + " has been added.");
+                                console.println("The role (" + args[2] + ") of the user " + args[1] + " has been added.");
                             } else {
-                                console.println("The role " + args[2] + " of the user " + args[2] + " already exist.");
+                                console.println("The role (" + args[2] + ") of the user " + args[2] + " already exist.");
                             }
                         }
                     } else {
@@ -185,7 +185,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                     }
                     break;
                 case SUBCMD_REMOVEROLE:
-                    if (args.length == 4) {
+                    if (args.length == 3) {
                         User existingUser = userRegistry.get(args[1]);
                         if (existingUser == null) {
                             console.println("The user doesn't exist here you can find the available users:");
@@ -194,9 +194,9 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         } else {
                             if (userRegistry.removeRole(existingUser, args[2])) {
                                 console.println(
-                                        "The role " + args[2] + " of the user " + args[1] + " has been removed.");
+                                        "The role (" + args[2] + ") of the user " + args[1] + " has been removed.");
                             } else {
-                                console.println("The role " + args[2] + " of the user " + args[2] + " doesn't exist.");
+                                console.println("The role (" + args[2] + ") of the user " + args[2] + " doesn't exist.");
                             }
                         }
                     } else {
