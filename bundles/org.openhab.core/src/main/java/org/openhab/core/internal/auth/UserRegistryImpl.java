@@ -250,6 +250,28 @@ public class UserRegistryImpl extends AbstractRegistry<User, String, UserProvide
     }
 
     @Override
+    public boolean checkAdministratorCredential(User user, String password) {
+        if (!(user instanceof ManagedUser)) {
+            throw new IllegalArgumentException("User is not managed: " + user.getName());
+        }
+        ManagedUser managedUser = (ManagedUser) user;
+        Set<String> role = managedUser.getRoles();
+        if (role.contains("administrator")) {
+            String passwordSalt = managedUser.getPasswordSalt();
+            String passwordHash = managedUser.getPasswordHash();
+
+            String checkPasswordHash = hash(password, passwordSalt, PASSWORD_ITERATIONS).get();
+            if (passwordHash.equals(checkPasswordHash)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void addUserSession(User user, UserSession session) {
         if (!(user instanceof ManagedUser)) {
             throw new IllegalArgumentException("User is not managed: " + user.getName());

@@ -78,6 +78,16 @@ public interface UserRegistry extends Registry<User, String>, AuthenticationProv
     public void changePassword(User user, String newPassword);
 
     /**
+     * Check if the password of the user with administrator role is correct.
+     * 
+     * @param user the user with the role administrator.
+     * @param password the password of the user with the role administrator.
+     * @return true if the password of the user is correct and if the user has the administrator role, return false
+     *         otherwise.
+     */
+    public boolean checkAdministratorCredential(User user, String password);
+
+    /**
      * Adds a new session to the user profile
      *
      * @param user the user
