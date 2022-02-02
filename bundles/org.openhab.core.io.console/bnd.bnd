@@ -1,0 +1,2 @@
+Bundle-SymbolicName: ${project.artifactId}
+Import-Package: org.apache.commons.cli.*
