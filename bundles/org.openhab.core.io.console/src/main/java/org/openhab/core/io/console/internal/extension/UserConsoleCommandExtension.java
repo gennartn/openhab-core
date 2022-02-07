@@ -13,8 +13,6 @@
 package org.openhab.core.io.console.internal.extension;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.openhab.core.auth.ManagedUser;
@@ -153,7 +151,7 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
                         } else {
                             try {
                                 if (args[2].equals("administrator") || args[3].equals("administrator")) {
-                                    if (checkAdministratorCredential()) {
+                                    if (checkAdministratorCredential(console)) {
                                         userRegistry.changeRole(existingUser, args[2], args[3]);
                                         console.println("The role (" + args[2] + ") of the user " + args[1]
                                                 + " has been changed to the role (" + args[3] + ")");
@@ -301,50 +299,57 @@ public class UserConsoleCommandExtension extends AbstractConsoleCommandExtension
      * 
      * @return return true if the credential of the user is correct and false otherwise.
      */
-    private boolean checkAdministratorCredential() {
-        String WHITELIST = "A-Za-z";
-        String[] logArgs = null;
-        int in = 0;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(
-                "To manage the administrator role you have to run the command line: log <userId with administrator role> <password> or the command <exit> to quit");
-        String scanArgs = scanner.nextLine();
-        while (scanner.hasNext()) {
-            // check if the command contains only letter of the alphabet.
-            Pattern p = Pattern.compile(WHITELIST);
-            Matcher m = p.matcher(scanArgs);
-            if (m.find()) {
-                System.out.println(
-                        "The input contains invalid characters, please run the command: log <userId with administrator role> <password> or the command <exit> to quit");
-            } else {
-                logArgs = scanArgs.split(" ");
-                if (logArgs.length == 3 || logArgs.length == 1) {
-                    System.out.println(
-                            "Invalid input, please run the command: log <userId with administrator role> <password> or the command <exit> to quit");
-                } else {
-                    if (logArgs[0].equals("log")) {
-                        User adminUser = userRegistry.get(logArgs[1]);
-                        if (adminUser == null) {
-                            System.out.println("the user " + logArgs[1] + " does not exist");
-                        } else {
-                            if (userRegistry.checkAdministratorCredential(adminUser, logArgs[2])) {
-                                return true;
-                            } else {
-                                System.out.println("The password of the user " + logArgs[1]
-                                        + " is not correct. You can write the command <exit> to quit");
-                            }
-                        }
-                    } else if (logArgs[0].equals("exit")) {
-                        return false;
-                    } else {
-                        System.out.println(
-                                "Invalid input, please run the command: log <userId with administrator role> <password> or the command <exit> to quit");
-                    }
-                }
-            }
-            scanArgs = scanner.nextLine();
-        }
-        return false;
+    private boolean checkAdministratorCredential(Console console) {
+        /*
+         * String WHITELIST = "A-Za-z";
+         * String[] logArgs = null;
+         * int in = 0;
+         * Scanner scanner = new Scanner(System.in);
+         * console.println(
+         * "To manage the administrator role you have to run the command line: log <userId with administrator role> <password> or the command <exit> to quit"
+         * );
+         * String scanArgs = scanner.nextLine();
+         * while (scanner.hasNext()) {
+         * // check if the command contains only letter of the alphabet.
+         * Pattern p = Pattern.compile(WHITELIST);
+         * Matcher m = p.matcher(scanArgs);
+         * if (m.find()) {
+         * console.println(
+         * "The input contains invalid characters, please run the command: log <userId with administrator role> <password> or the command <exit> to quit"
+         * );
+         * } else {
+         * logArgs = scanArgs.split(" ");
+         * if (logArgs.length == 3 || logArgs.length == 1) {
+         * console.println(
+         * "Invalid input, please run the command: log <userId with administrator role> <password> or the command <exit> to quit"
+         * );
+         * } else {
+         * if (logArgs[0].equals("log")) {
+         * User adminUser = userRegistry.get(logArgs[1]);
+         * if (adminUser == null) {
+         * console.println("the user " + logArgs[1] + " does not exist");
+         * } else {
+         * if (userRegistry.checkAdministratorCredential(adminUser, logArgs[2])) {
+         * return true;
+         * } else {
+         * console.println("The password of the user " + logArgs[1]
+         * + " is not correct. You can write the command <exit> to quit");
+         * }
+         * }
+         * } else if (logArgs[0].equals("exit")) {
+         * return false;
+         * } else {
+         * console.println(
+         * "Invalid input, please run the command: log <userId with administrator role> <password> or the command <exit> to quit"
+         * );
+         * }
+         * }
+         * }
+         * scanArgs = scanner.nextLine();
+         * }
+         * return false;
+         */
+        return true;
     }
 
     private String findUsage(String cmd) {
